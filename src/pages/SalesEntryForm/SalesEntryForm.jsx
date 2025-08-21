@@ -24,6 +24,7 @@ export default function SalesEntryForm() {
         setHeader((prev) => ({ ...prev, ac_amt: total }));
       };
       
+      
     return (
       <div className={styles.container}>
         <h1 className={styles.header}>Sales Entry Form</h1>
