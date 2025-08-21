@@ -85,6 +85,7 @@ export default function SalesEntryForm() {
   <button type="submit" className={styles.btn}>Submit</button>
 </form>
 
+
       </div>
     );
   }
