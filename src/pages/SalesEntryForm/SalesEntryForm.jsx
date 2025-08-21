@@ -19,6 +19,11 @@ export default function SalesEntryForm() {
             rate:0,
         }
     ]);
+    const updateTotal = (rows) => {
+        const total = rows.reduce((sum, r) => sum + r.qty * r.rate, 0);
+        setHeader((prev) => ({ ...prev, ac_amt: total }));
+      };
+      
     return (
       <div className={styles.container}>
         <h1 className={styles.header}>Sales Entry Form</h1>
