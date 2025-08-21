@@ -75,6 +75,16 @@ export default function SalesEntryForm() {
   + Add Row
 </button>
         </div>
+        <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    console.log({ header, details });
+  }}
+>
+  {/* form content */}
+  <button type="submit" className={styles.btn}>Submit</button>
+</form>
+
       </div>
     );
   }
