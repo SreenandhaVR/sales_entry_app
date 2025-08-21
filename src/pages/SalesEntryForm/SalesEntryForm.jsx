@@ -65,7 +65,15 @@ export default function SalesEntryForm() {
     ))}
   </tbody>
 </table>
-
+<button
+  type="button"
+  className={styles.btn}
+  onClick={() =>
+    setDetails([...details, { sr_no: details.length + 1, item_code: "", qty: 0, rate: 0 }])
+  }
+>
+  + Add Row
+</button>
         </div>
       </div>
     );
