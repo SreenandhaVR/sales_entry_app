@@ -9,6 +9,16 @@ export default function SalesEntryForm() {
         ac_amt: '',
         status: '',
     });
+    const [details,setDetails] = useState([
+        {
+            sr_no:1,
+            item_code:'',
+            item_name:'',
+            description:'',
+            qty:0,
+            rate:0,
+        }
+    ]);
     return (
       <div className={styles.container}>
         <h1 className={styles.header}>Sales Entry Form</h1>
@@ -23,7 +33,32 @@ export default function SalesEntryForm() {
             <input type="number" className={styles.input} value={header.ac_amt} onChange={(e) => setHeader({...header, ac_amt: e.target.value})}/>
             <p>Status: {header.status}</p>
             <input type="text" className={styles.input} value={header.status} onChange={(e) => setHeader({...header, status: e.target.value})}/>
-            
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Item Code</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        details.map((row,i) => (
+                            <tr key={i}>
+                                <td>
+                                    {row.sr_no}
+                                </td>
+                                <td>
+                                    <input className={styles.input} value={row.item_code} /></td>
+        <td>
+            <input className={styles.input} type="number" value={row.qty} /></td>
+        <td>
+            <input className={styles.input} type="number" value={row.rate} /></td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
         </div>
       </div>
