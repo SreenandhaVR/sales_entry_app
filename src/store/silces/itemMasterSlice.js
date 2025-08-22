@@ -18,7 +18,19 @@ const itemMasterSlice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    // Handle async actions
+    builder
+      .addCase(fetchItems.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchItems.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = Array.isArray(action.payload) ? action.payload : [];
+      })
+      .addCase(fetchItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error?.message || 'Failed to load items';
+      });
   }
 });
 

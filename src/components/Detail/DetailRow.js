@@ -1,40 +1,48 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import Input from '../ui/Input';
-import Select from '../ui/Select';
-import { Trash2 } from 'lucide-react';
+import React from "react";
+import { Trash2 } from "lucide-react";
 
 const DetailRow = ({ row, index, onUpdate, onDelete }) => {
-  const { items } = useSelector(state => state.itemMaster);
-  
-  const itemOptions = items.map(item => ({
-    value: item.item_code,
-    label: item.item_code
-  }));
+  const handleChange = (field, value) => {
+    onUpdate({ ...row, [field]: value });
+  };
 
   return (
     <div className="table-row">
-      <div className="sr-badge">{row.sr_no}</div>
-      
-      <Select
-        options={itemOptions}
+      <div>{index + 1}</div>
+
+      <input
         value={row.item_code}
-        onChange={(e) => onUpdate(index, 'item_code', e.target.value)}
-        placeholder="Select Item"
+        onChange={(e) => handleChange("item_code", e.target.value)}
+        placeholder="Code"
       />
-      
-      <Input
+
+      <input
         value={row.item_name}
-        readOnly
-        placeholder="Auto-populated"
+        onChange={(e) => handleChange("item_name", e.target.value)}
+        placeholder="Name"
       />
-      
-      {/* Add other fields */}
-      
-      <button
-        onClick={() => onDelete(index)}
-        className="delete-button"
-      >
+
+      <input
+        value={row.description}
+        onChange={(e) => handleChange("description", e.target.value)}
+        placeholder="Description"
+      />
+
+      <input
+        type="number"
+        value={row.qty}
+        onChange={(e) => handleChange("qty", e.target.value)}
+        placeholder="Qty"
+      />
+
+      <input
+        type="number"
+        value={row.rate}
+        onChange={(e) => handleChange("rate", e.target.value)}
+        placeholder="Rate"
+      />
+
+      <button onClick={onDelete}>
         <Trash2 size={16} />
       </button>
     </div>

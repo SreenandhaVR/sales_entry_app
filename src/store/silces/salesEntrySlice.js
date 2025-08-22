@@ -1,6 +1,6 @@
 // src/store/slices/salesEntrySlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import salesService from '../../services/salesService';
+import salesService from '../services/salesService';
 import { validateSalesEntry } from '../../utils/validation';
 
 // Async thunk

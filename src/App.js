@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SalesEntry from './pages/SalesEntryForm'
+import SalesEntry from './pages/SalesEntryForm/SalesEntry'
 import './App.css';
 
 function App() {
