@@ -38,8 +38,54 @@ const salesEntrySlice = createSlice({
         );
       }
     },
-    // Other reducers...
-  }
+    updateDetail: (state, action) => {
+        const { index, field, value } = action.payload;
+        state.details[index][field] = value;
+        
+        // Auto-populate item name if item code changes
+        if (field === 'item_code') {
+          const selectedItem = state.itemMaster.items.find(
+            item => item.item_code === value
+          );
+          if (selectedItem) {
+            state.details[index].item_name = selectedItem.item_name;
+          }
+        }
+        
+        // Recalculate header total
+        state.header.ac_amt = state.details.reduce(
+          (sum, row) => sum + (row.qty * row.rate), 0
+        );
+      },
+      
+      addDetailRow: (state) => {
+        const newRow = {
+          sr_no: state.details.length + 1,
+          item_code: '',
+          item_name: '',
+          description: '',
+          qty: 0,
+          rate: 0
+        };
+        state.details.push(newRow);
+      },
+      
+      removeDetailRow: (state, action) => {
+        const indexToRemove = action.payload;
+        if (state.details.length > 1) {
+          state.details.splice(indexToRemove, 1);
+          // Re-index remaining rows
+          state.details.forEach((row, index) => {
+            row.sr_no = index + 1;
+          });
+          // Recalculate total
+          state.header.ac_amt = state.details.reduce(
+            (sum, row) => sum + (row.qty * row.rate), 0
+          );
+        }
+      }
+    }
+  
 });
 
 export default salesEntrySlice.reducer;
