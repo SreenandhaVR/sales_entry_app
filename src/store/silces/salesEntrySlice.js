@@ -1,6 +1,22 @@
+// src/store/slices/salesEntrySlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import salesService from '../services/salesService';
+import salesService from '../../services/salesService';
 import { validateSalesEntry } from '../../utils/validation';
+
+// Async thunk
+export const submitSalesEntry = createAsyncThunk(
+  'salesEntry/submit',
+  async (salesData, { rejectWithValue }) => {
+    try {
+      const response = await salesService.createSalesEntry(salesData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to submit sales entry'
+      );
+    }
+  }
+);
 
 const initialState = {
   header: {
@@ -20,28 +36,13 @@ const initialState = {
       rate: 0
     }
   ],
-  itemMaster: { items: [] }, // ✅ added to prevent errors
-  validation: { header: {}, details: [] }, // ✅ added
-  isValid: true, // ✅ added
+  itemMaster: { items: [] },
+  validation: { header: {}, details: [] },
+  isValid: true,
   loading: false,
   error: null,
   lastSavedEntry: null
 };
-
-// Async thunk (only once ✅)
-export const submitSalesEntry = createAsyncThunk(
-  'salesEntry/submit',
-  async (salesData, { rejectWithValue }) => {
-    try {
-      const response = await salesService.createSalesEntry(salesData);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Failed to submit sales entry'
-      );
-    }
-  }
-);
 
 const salesEntrySlice = createSlice({
   name: 'salesEntry',
@@ -50,7 +51,6 @@ const salesEntrySlice = createSlice({
     updateHeader: (state, action) => {
       const { field, value } = action.payload;
       state.header[field] = value;
-
       if (field !== 'ac_amt') {
         state.header.ac_amt = state.details.reduce(
           (sum, row) => sum + row.qty * row.rate,
@@ -123,6 +123,7 @@ const salesEntrySlice = createSlice({
       .addCase(submitSalesEntry.fulfilled, (state, action) => {
         state.loading = false;
         state.lastSavedEntry = action.payload;
+        // Reset form after save
         state.header = {
           vr_no: '',
           vr_date: new Date().toISOString().split('T')[0],
