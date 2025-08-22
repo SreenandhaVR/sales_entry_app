@@ -12,13 +12,25 @@ const HeaderSection = () => {
     { value: 'A', label: 'Active' },
     { value: 'I', label: 'Inactive' }
   ];
+  const handleHeaderChange = (field, value) => {
+    dispatch(updateHeader({ field, value }));
+  };
 
   return (
     <div className="header-section">
       <h2>Header Information</h2>
-      {/* Form fields will be added here */}
+      <div className="header-grid">
+      <Input
+        label="Voucher No."
+        type="number"
+        value={header.vr_no}
+        onChange={(e) => handleHeaderChange('vr_no', e.target.value)}
+        required
+      />
+      {/* Add other fields */}
     </div>
-  );
+  </div>
+);
 };
 
 export default HeaderSection;
