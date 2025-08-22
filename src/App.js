@@ -1,16 +1,22 @@
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SalesEntry from './pages/SalesEntryForm'
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import SalesEntryForm from './pages/SalesEntryForm/SalesEntryForm';
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SalesEntryForm />} />
-      </Routes>
-      </BrowserRouter>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            {/* Route for SalesEntry component */}
+            <Route path="/" element={<SalesEntry />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 
