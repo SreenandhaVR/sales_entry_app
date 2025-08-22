@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import salesService from '../services/salesService';
-
+import { validateSalesEntry } from '../../utils/validation';
 const initialState = {
   header: {
     vr_no: '',
@@ -84,7 +84,23 @@ const salesEntrySlice = createSlice({
           );
         }
       }
+      validateForm: (state) => {
+        const validation = validateSalesEntry({
+          header: state.header,
+          details: state.details
+        });
+        
+        state.validation = validation;
+        state.isValid = Object.keys(validation.header).length === 0 && 
+                       validation.details.every(detail => Object.keys(detail).length === 0);
+      },
+      
+      clearValidation: (state) => {
+        state.validation = { header: {}, details: [] };
+        state.isValid = true;
+      }
     }
+    
   
 });
 
