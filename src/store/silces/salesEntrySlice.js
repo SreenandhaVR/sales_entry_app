@@ -27,7 +27,18 @@ const salesEntrySlice = createSlice({
   name: 'salesEntry',
   initialState,
   reducers: {
-    // Reducers implementation
+    updateHeader: (state, action) => {
+      const { field, value } = action.payload;
+      state.header[field] = value;
+      
+      // Auto-calculate total if not updating amount directly
+      if (field !== 'ac_amt') {
+        state.header.ac_amt = state.details.reduce(
+          (sum, row) => sum + (row.qty * row.rate), 0
+        );
+      }
+    },
+    // Other reducers...
   }
 });
 
