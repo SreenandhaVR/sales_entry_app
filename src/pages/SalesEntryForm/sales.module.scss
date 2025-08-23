@@ -511,3 +511,108 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
+
+// Print Styles
+@media print {
+  .salesEntry {
+    background: white;
+    padding: 20px;
+    max-width: none;
+    margin: 0;
+    font-size: 12pt;
+  }
+
+  .pageHeader {
+    border-bottom: 2px solid #000;
+    margin-bottom: 20px;
+    
+    h1 {
+      font-size: 18pt;
+      color: #000;
+    }
+  }
+
+  .headerActions,
+  .bottomActions,
+  .btnAdd,
+  .btnDelete,
+  .btnGetNext {
+    display: none !important;
+  }
+
+  .sectionCard {
+    box-shadow: none;
+    border: 1px solid #000;
+    margin-bottom: 15px;
+    page-break-inside: avoid;
+  }
+
+  .sectionHeader {
+    background: #f0f0f0;
+    border-bottom: 1px solid #000;
+    
+    h2 {
+      color: #000;
+      font-size: 14pt;
+    }
+  }
+
+  .formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .formGroup {
+    label {
+      font-weight: bold;
+      color: #000;
+      font-size: 10pt;
+    }
+
+    input, select {
+      border: none;
+      border-bottom: 1px solid #000;
+      background: transparent;
+      padding: 2px 0;
+      font-size: 10pt;
+      color: #000;
+    }
+  }
+
+  .detailsTable {
+    border: 1px solid #000;
+    font-size: 10pt;
+
+    th, td {
+      border: 1px solid #000;
+      padding: 5px;
+      color: #000;
+    }
+
+    th {
+      background: #f0f0f0;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      border: none;
+      background: transparent;
+      width: 100%;
+      font-size: 9pt;
+      color: #000;
+    }
+  }
+
+  .amountCell {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  .totalInput {
+    font-weight: bold;
+    background: transparent !important;
+    border-bottom: 2px solid #000 !important;
+  }
+}

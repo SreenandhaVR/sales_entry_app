@@ -10,7 +10,7 @@ export const getNextVrNo = createAsyncThunk(
       const response = await salesService.getHeaders();
       const headers = response.data || [];
       
-      // Generate a unique voucher number
+      // Generate a unique voucher number using timestamp + random
       const timestamp = Date.now().toString().slice(-4);
       const random = Math.floor(Math.random() * 99).toString().padStart(2, '0');
       return parseInt(timestamp + random);
@@ -58,16 +58,16 @@ export const submitSalesEntry = createAsyncThunk(
       };
       
       console.log('Final submission data:', JSON.stringify(submissionData, null, 2));
-      // Submit header first
-      const headerResponse = await salesService.createHeader(submissionData.header_table);
       
-      // Then submit details
-      const detailPromises = submissionData.detail_table.map(detail => 
-        salesService.createDetail(detail)
-      );
-      await Promise.all(detailPromises);
+      // Use the combined endpoint for better data consistency
+      const response = await salesService.createSalesEntry(submissionData);
       
-      return headerResponse.data;
+      // Return the complete saved entry for printing
+      return {
+        header: submissionData.header_table,
+        details: submissionData.detail_table,
+        response: response.data
+      };
     } catch (error) {
       console.error('Submit error:', error);
       console.error('Error response:', error.response);

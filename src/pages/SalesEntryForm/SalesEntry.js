@@ -14,6 +14,7 @@ import {
   getNextVrNo
 } from '../../store/slices/salesEntrySlice';
 import { validateCompleteForm } from '../../utils/validation';
+import PrintVoucher from '../../components/Print/PrintVoucher';
 import styles from '../../pages/SalesEntryForm/sales.module.scss';
 
 // Enhanced Modal Component
@@ -63,6 +64,7 @@ const SalesEntry = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [modalType, setModalType] = useState('success');
   const [itemNameMap, setItemNameMap] = useState({});
+  const [showPrint, setShowPrint] = useState(false);
 
   const statusOptions = [
     { value: 'A', label: 'Active' },
@@ -179,6 +181,14 @@ const SalesEntry = () => {
         />
       )}
 
+      {showPrint && lastSavedEntry && (
+        <PrintVoucher
+          header={lastSavedEntry.header}
+          details={lastSavedEntry.details}
+          onClose={() => setShowPrint(false)}
+        />
+      )}
+
       {/* Page Header */}
       <div className={styles.pageHeader}>
         <div>
@@ -205,8 +215,16 @@ const SalesEntry = () => {
           </button>
           <button
             className={styles.btnSecondary}
-            onClick={() => window.print()}
-            disabled={loading || itemsLoading}
+            onClick={() => {
+              if (lastSavedEntry) {
+                setShowPrint(true);
+              } else {
+                setModalMessage('Please save the entry first before printing.');
+                setModalType('error');
+                setShowModal(true);
+              }
+            }}
+            disabled={loading || itemsLoading || !lastSavedEntry}
           >
             <Printer size={20} />
             <span>Print</span>
@@ -413,8 +431,16 @@ const SalesEntry = () => {
         </button>
         <button
           className={styles.btnSecondary}
-          onClick={() => window.print()}
-          disabled={loading || itemsLoading}
+          onClick={() => {
+            if (lastSavedEntry) {
+              setShowPrint(true);
+            } else {
+              setModalMessage('Please save the entry first before printing.');
+              setModalType('error');
+              setShowModal(true);
+            }
+          }}
+          disabled={loading || itemsLoading || !lastSavedEntry}
         >
           <Printer size={20} />
           Print Preview
