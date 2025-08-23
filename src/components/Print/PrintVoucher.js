@@ -1,22 +1,23 @@
 import React from 'react';
+import styles from './PrintVoucher.module.scss';
 
 const PrintVoucher = ({ header, details, onClose }) => {
   const validDetails = details.filter(row => row.item_code);
   const total = validDetails.reduce((sum, row) => sum + (row.qty * row.rate), 0);
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 2000 }}>
-      <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 2001 }}>
-        <button onClick={() => window.print()} style={{ padding: '10px 20px', marginRight: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Print</button>
-        <button onClick={onClose} style={{ padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Close</button>
+    <div className={styles.printModal}>
+      <div className={styles.printButtons}>
+        <button onClick={() => window.print()}>Print</button>
+        <button onClick={onClose}>Close</button>
       </div>
       
-      <div style={{ background: 'white', width: '800px', margin: '50px auto', padding: '30px', fontFamily: 'Arial, sans-serif' }}>
-        <div style={{ textAlign: 'center', borderBottom: '2px solid #000', paddingBottom: '15px', marginBottom: '20px' }}>
-          <h1 style={{ margin: 0, fontSize: '24px' }}>SALES VOUCHER</h1>
+      <div className={styles.printContent}>
+        <div className={styles.header}>
+          <h1>SALES VOUCHER</h1>
         </div>
         
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <div className={styles.info}>
           <div>
             <div><strong>Voucher No:</strong> {header.vr_no}</div>
             <div><strong>Date:</strong> {new Date(header.vr_date).toLocaleDateString()}</div>
@@ -27,53 +28,45 @@ const PrintVoucher = ({ header, details, onClose }) => {
           </div>
         </div>
         
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
+        <table className={styles.table}>
           <thead>
-            <tr style={{ background: '#f0f0f0' }}>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Sr.</th>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Item Code</th>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Item Name</th>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Description</th>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Qty</th>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Rate</th>
-              <th style={{ border: '1px solid #000', padding: '8px' }}>Amount</th>
+            <tr>
+              <th>Sr.</th>
+              <th>Item Code</th>
+              <th>Item Name</th>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Rate</th>
+              <th>Amount</th>
             </tr>
           </thead>
           <tbody>
             {validDetails.map((row, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid #000', padding: '8px', textAlign: 'center' }}>{index + 1}</td>
-                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.item_code}</td>
-                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.item_name}</td>
-                <td style={{ border: '1px solid #000', padding: '8px' }}>{row.description}</td>
-                <td style={{ border: '1px solid #000', padding: '8px', textAlign: 'right' }}>{row.qty}</td>
-                <td style={{ border: '1px solid #000', padding: '8px', textAlign: 'right' }}>₹{row.rate}</td>
-                <td style={{ border: '1px solid #000', padding: '8px', textAlign: 'right' }}>₹{(row.qty * row.rate).toFixed(2)}</td>
+                <td className={styles.center}>{index + 1}</td>
+                <td>{row.item_code}</td>
+                <td>{row.item_name}</td>
+                <td>{row.description}</td>
+                <td className={styles.right}>{row.qty}</td>
+                <td className={styles.right}>₹{row.rate}</td>
+                <td className={styles.right}>₹{(row.qty * row.rate).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
         </table>
         
-        <div style={{ textAlign: 'right', fontSize: '18px', fontWeight: 'bold', marginBottom: '30px' }}>
+        <div className={styles.total}>
           Total Amount: ₹{total.toFixed(2)}
         </div>
         
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
+        <div className={styles.signature}>
           <div></div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ marginBottom: '40px' }}>_____________________</div>
+          <div className={styles.signatureBox}>
+            <div className={styles.line}>_____________________</div>
             <div>Authorized Signature</div>
           </div>
         </div>
       </div>
-      
-      <style>{`
-        @media print {
-          body * { visibility: hidden; }
-          div[style*="background: white"], div[style*="background: white"] * { visibility: visible; }
-          div[style*="position: absolute"] { display: none !important; }
-        }
-      `}</style>
     </div>
   );
 };

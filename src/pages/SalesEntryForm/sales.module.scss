@@ -1,4 +1,3 @@
-// Sales Entry Styles
 .salesEntry {
   max-width: 1400px;
   margin: 0 auto;
@@ -346,7 +345,6 @@
   border-top: 1px solid #e0e0e0;
 }
 
-// Modal Styles
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -403,7 +401,6 @@
   color: #dc3545;
 }
 
-// Responsive Design
 @media (max-width: 768px) {
   .salesEntry {
     padding: 10px;
@@ -448,7 +445,6 @@
   }
 }
 
-// Animation classes
 .animate-spin {
   animation: spin 1s linear infinite;
 }
@@ -482,18 +478,15 @@
   }
 }
 
-// Enhanced focus states
 *:focus-visible {
   outline: 2px solid #007bff;
   outline-offset: 2px;
 }
 
-// Smooth scrolling
 html {
   scroll-behavior: smooth;
 }
 
-// Custom scrollbar
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -512,7 +505,6 @@ html {
   background: #a8a8a8;
 }
 
-// Print Styles
 @media print {
   .salesEntry {
     background: white;

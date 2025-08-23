@@ -1,8 +1,5 @@
-// src/store/slices/salesEntrySlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { salesService, itemService } from '../services/allAPI';
-
-// Async thunk to get next voucher number
 export const getNextVrNo = createAsyncThunk(
   'salesEntry/getNextVrNo',
   async (_, { rejectWithValue }) => {
@@ -10,7 +7,7 @@ export const getNextVrNo = createAsyncThunk(
       const response = await salesService.getHeaders();
       const headers = response.data || [];
       
-      // Generate a unique voucher number using timestamp + random
+
       const timestamp = Date.now().toString().slice(-4);
       const random = Math.floor(Math.random() * 99).toString().padStart(2, '0');
       return parseInt(timestamp + random);
@@ -21,19 +18,19 @@ export const getNextVrNo = createAsyncThunk(
   }
 );
 
-// Async thunk with better error handling
+
 export const submitSalesEntry = createAsyncThunk(
   'salesEntry/submit',
   async (salesData, { rejectWithValue }) => {
     try {
       console.log('Submitting sales data:', salesData);
       
-      // Ensure vr_no is set
+
       if (!salesData.header.vr_no || salesData.header.vr_no === '') {
         return rejectWithValue('Voucher number is required');
       }
       
-      // Format data according to API specification
+
       const vrNo = parseInt(salesData.header.vr_no) || Date.now().toString().slice(-6);
       
       const submissionData = {
@@ -72,7 +69,7 @@ export const submitSalesEntry = createAsyncThunk(
       console.error('Submit error:', error);
       console.error('Error response:', error.response);
       
-      // Better error message extraction
+
       let errorMessage = 'Failed to submit sales entry';
       
       if (error.response?.data) {
@@ -89,7 +86,7 @@ export const submitSalesEntry = createAsyncThunk(
   }
 );
 
-// Async thunk to fetch items for dropdown
+
 export const fetchItemMaster = createAsyncThunk(
   'salesEntry/fetchItemMaster',
   async (_, { rejectWithValue }) => {

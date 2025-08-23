@@ -1,8 +1,5 @@
-// === API Service Definitions ===
-
 const API_BASE_URL = 'http://5.189.180.8:8010';
 
-// Mock axios-like implementation since we can't import axios in artifacts
 const api = {
   get: async (endpoint) => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -47,21 +44,14 @@ const api = {
 };
 
 export const itemService = {
-  // Fetches all items from the /item endpoint
   getAllItems: () => api.get('/item'),
 };
 
 export const salesService = {
-  // Fetches all sales headers
   getHeaders: () => api.get('/header'),
-  // Fetches sales details (might need a parameter like vr_no in a real app)
   getDetails: () => api.get('/detail'),
-  // Fetches item master data
   getItemMaster: () => api.get('/item'),
-  // Creates a new sales entry, sending both header and detail data
   createSalesEntry: (data) => api.post('/header/multiple', data),
-  // Create header only
   createHeader: (data) => api.post('/header', data),
-  // Create detail only
   createDetail: (data) => api.post('/detail', data),
 };

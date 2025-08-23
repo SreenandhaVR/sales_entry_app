@@ -1,6 +1,3 @@
-// Complete validation with all business logic
-
-// Validate voucher number
 export const validateVoucherNumber = (vr_no) => {
   if (!vr_no || vr_no === '') {
     return 'Please enter a valid Voucher Number.';
@@ -11,7 +8,6 @@ export const validateVoucherNumber = (vr_no) => {
   return null;
 };
 
-// Validate voucher date
 export const validateVoucherDate = (vr_date) => {
   if (!vr_date) {
     return 'Voucher Date is required.';
@@ -19,7 +15,6 @@ export const validateVoucherDate = (vr_date) => {
   return null;
 };
 
-// Validate account name
 export const validateAccountName = (ac_name) => {
   if (!ac_name || !ac_name.trim()) {
     return 'Account Name is required.';
@@ -30,7 +25,6 @@ export const validateAccountName = (ac_name) => {
   return null;
 };
 
-// Validate item details
 export const validateItemDetails = (details) => {
   const validDetails = details.filter(detail => detail.item_code);
   
@@ -55,28 +49,22 @@ export const validateItemDetails = (details) => {
   return null;
 };
 
-// Complete form validation (matches original component logic)
 export const validateCompleteForm = (header, details) => {
-  // Validate voucher number
   const vrNoError = validateVoucherNumber(header.vr_no);
   if (vrNoError) return vrNoError;
 
-  // Validate voucher date
   const vrDateError = validateVoucherDate(header.vr_date);
   if (vrDateError) return vrDateError;
 
-  // Validate account name
   const acNameError = validateAccountName(header.ac_name);
   if (acNameError) return acNameError;
 
-  // Validate item details
   const detailsError = validateItemDetails(details);
   if (detailsError) return detailsError;
 
-  return null; // No errors
+  return null;
 };
 
-// Validate header (for Redux)
 export const validateHeader = (header, details = []) => {
   const errors = {};
 
@@ -106,7 +94,6 @@ export const validateHeader = (header, details = []) => {
   return errors;
 };
 
-// Validate details (for Redux)
 export const validateDetail = (details) => {
   const errors = [];
 
@@ -135,7 +122,6 @@ export const validateDetail = (details) => {
   return errors;
 };
 
-// Master validation wrapper (for Redux)
 export const validateSalesEntry = (salesEntry) => {
   return {
     header: validateHeader(salesEntry.header, salesEntry.details),
