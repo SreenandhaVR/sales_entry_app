@@ -26,7 +26,14 @@ const api = {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      const errorText = await response.text().catch(() => '');
+      let errorData = {};
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = { message: errorText };
+      }
+      console.log('API Error Response:', errorData);
       const error = new Error(`HTTP error! status: ${response.status}`);
       error.response = {
         status: response.status,
@@ -49,6 +56,12 @@ export const salesService = {
   getHeaders: () => api.get('/header'),
   // Fetches sales details (might need a parameter like vr_no in a real app)
   getDetails: () => api.get('/detail'),
+  // Fetches item master data
+  getItemMaster: () => api.get('/item'),
   // Creates a new sales entry, sending both header and detail data
   createSalesEntry: (data) => api.post('/header/multiple', data),
+  // Create header only
+  createHeader: (data) => api.post('/header', data),
+  // Create detail only
+  createDetail: (data) => api.post('/detail', data),
 };

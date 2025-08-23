@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import salesEntrySlice from '../store/silces/salesEntrySlice';
-import itemMasterSlice from '../store/silces/itemMasterSlice';
+import salesEntryReducer from './slices/salesEntrySlice';
 
 export const store = configureStore({
   reducer: {
-    salesEntry: salesEntrySlice,
-    itemMaster: itemMasterSlice,
+    salesEntry: salesEntryReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+      },
+    }),
 });
 
-// Remove TypeScript type aliases from JS file
+export default store;
