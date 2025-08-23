@@ -5,13 +5,13 @@ const PrintVoucher = ({ header, details, onClose }) => {
   const total = validDetails.reduce((sum, row) => sum + (row.qty * row.rate), 0);
 
   return (
-    <div className="print-modal" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 2000 }}>
-      <div className="print-buttons" style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 2001 }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', zIndex: 2000 }}>
+      <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 2001 }}>
         <button onClick={() => window.print()} style={{ padding: '10px 20px', marginRight: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Print</button>
         <button onClick={onClose} style={{ padding: '10px 20px', background: '#6c757d', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Close</button>
       </div>
       
-      <div className="print-content" style={{ background: 'white', width: '100%', maxWidth: '210mm', margin: '0 auto', padding: '15px', fontFamily: 'Arial, sans-serif', boxSizing: 'border-box' }}>
+      <div style={{ background: 'white', width: '800px', margin: '50px auto', padding: '30px', fontFamily: 'Arial, sans-serif' }}>
         <div style={{ textAlign: 'center', borderBottom: '2px solid #000', paddingBottom: '15px', marginBottom: '20px' }}>
           <h1 style={{ margin: 0, fontSize: '24px' }}>SALES VOUCHER</h1>
         </div>
@@ -69,21 +69,9 @@ const PrintVoucher = ({ header, details, onClose }) => {
       
       <style>{`
         @media print {
-          * { visibility: hidden; }
-          .print-content, .print-content * { visibility: visible; }
-          .print-buttons { display: none !important; }
-          .print-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100% !important;
-            max-width: none !important;
-            margin: 0 !important;
-            padding: 10mm !important;
-            page-break-inside: avoid !important;
-            height: auto !important;
-            overflow: visible !important;
-          }
+          body * { visibility: hidden; }
+          div[style*="background: white"], div[style*="background: white"] * { visibility: visible; }
+          div[style*="position: absolute"] { display: none !important; }
         }
       `}</style>
     </div>
